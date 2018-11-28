@@ -3,16 +3,19 @@ package image;
 import javafx.scene.paint.Color;
 
 public class BruteRasterImage implements Image {
-    private Color color;
     private int width;
     private int height;
     private Color[][]colors;
 
     //Premier constructeur d'objet de type BruteRasterImage
     public BruteRasterImage(Color color, int width, int height){
-        this.color = color;
         this.width = width;
         this.height = height;
+        for(int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                colors[x][y] = color;
+            }
+        }
     }
 
     //Second constructeur d'objet de type BruteRasterImage
@@ -32,6 +35,7 @@ public class BruteRasterImage implements Image {
         colors[x][y] = color;
     }
 
+    // TODO : corriger pour avoir la couleur des pixels
     @Override
     public Color getPixelColor(int x, int y) {
         return colors[x][y];
