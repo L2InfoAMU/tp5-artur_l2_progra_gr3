@@ -2,6 +2,8 @@ package image;
 
 import javafx.scene.paint.Color;
 
+import static util.Matrices.*;
+
 public class BruteRasterImage implements Image {
     private int width;
     private int height;
@@ -12,8 +14,7 @@ public class BruteRasterImage implements Image {
         this.width = width;
         this.height = height;
 
-        this.colors = new Color[width][height];
-
+        createRepresentation();
         for(int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
                 colors[x][y] = color;
@@ -23,7 +24,7 @@ public class BruteRasterImage implements Image {
 
     //Second constructeur d'objet de type BruteRasterImage
     public BruteRasterImage(Color[][] colors){
-        this.colors = colors;
+        this.colors = new Color[width][height];
     }
 
     //Les neufs méthodes de la classe
