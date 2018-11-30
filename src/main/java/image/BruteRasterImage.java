@@ -24,7 +24,14 @@ public class BruteRasterImage implements Image {
 
     //Second constructeur d'objet de type BruteRasterImage
     public BruteRasterImage(Color[][] colors){
-        this.colors = new Color[width][height];
+        this.height = getColumnCount(colors);
+        this.width = getRowCount(colors);
+        this.colors = new Color[this.width][this.height];
+        requiresNonNull(colors);
+        requiresNonZeroDimensions(colors);
+        requiresRectangularMatrix(colors);
+        this.colors = colors;
+
     }
 
     //Les neufs méthodes de la classe

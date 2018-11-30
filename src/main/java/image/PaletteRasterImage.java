@@ -2,11 +2,17 @@ package image;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static util.Matrices.*;
+
 public class PaletteRasterImage implements Image {
 
     private int width;
     private int height;
-    private Color[][]colors;
+    private List<Color> palette;
+    private int [][] indexesOfColors;
 
     // Les deux constructeurs
 
@@ -14,61 +20,26 @@ public class PaletteRasterImage implements Image {
     public PaletteRasterImage(Color color, int width, int height){
         this.width = width;
         this.height = height;
-        createRepresentation();
-        for(int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                colors[x][y] = color;
-            }
-        }
-    }
-
-    //Contructeur 2 -> TODO : la construire corretement
-    public PaletteRasterImage(Color[][] pixels){
-        this.colors = pixels;
-    }
-
-    //Les neufs methodes
-
-    //methode 1
-    public void createRepresentation(){
-        this.colors = new Color[width][height];
-    }
-
-    //methode 2
-    public void setPixelColor(Color color, int x, int y){
-        //TODO : verifier si color n'est pas dans la palette de couleur si elle ne l'est pas alors l'ajouter
-        colors[x][y] = color;
-    }
-
-
-    //methode 3
-    public void setPixelsColor(Color[][] pixels){
-        this.colors = pixels;
-    }
-
-    //methode 4
-    private void setPixelsColor(Color color){
+        this.palette = new ArrayList<Color>();
+        this.indexesOfColors = new int[width][height];
+        palette.add(color);
         for(int x = 0; x < height; x++)
             for(int y = 0; y < width; y++)
-                colors[x][y] = color;
+                indexesOfColors[y][x] = palette.indexOf(color);
     }
 
-    //methode 5
-    @Override
-    public Color getPixelColor(int x, int y) {
-        return colors[x][y];
-    }
-
-    //methode 6
-    @Override
-    public int getWidth() {
-        return colors[0].length;
-    }
-
-    //methode 7
-    @Override
-    public int getHeight() {
-        return colors.length;
+    //Constructeur 2
+    public PaletteRasterImage(Color[][] pixels){
+        this.height = getColumnCount(pixels);
+        this.width = getRowCount(pixels);
+        requiresNonNull(pixels);
+        requiresNonZeroDimensions(pixels);
+        requiresRectangularMatrix(pixels);
+        this.palette = new ArrayList<Color>();
+        this.indexesOfColors = new int[width][height];
+        for(int x = 0; x < height; x++)
+            for (int y = 0; y < width; y++)
+                indexesOfColors[y][x] = palette.indexOf(pixels[y][x]);
     }
 
     //methode 8
