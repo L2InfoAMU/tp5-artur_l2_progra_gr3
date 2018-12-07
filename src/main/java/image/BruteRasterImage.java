@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 import static util.Matrices.*;
 
-public class BruteRasterImage implements Image {
+public class BruteRasterImage extends RasterImage /*implements Image*/{
     private int width;
     private int height;
     private Color[][]colors;
@@ -13,13 +13,8 @@ public class BruteRasterImage implements Image {
     public BruteRasterImage(Color color, int width, int height){
         this.width = width;
         this.height = height;
-
         createRepresentation();
-        for(int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                colors[x][y] = color;
-            }
-        }
+        setPixelsColor(color);
     }
 
     //Second constructeur d'objet de type BruteRasterImage
@@ -34,6 +29,54 @@ public class BruteRasterImage implements Image {
 
     }
 
+    @Override
+    public void createRepresentation() {
+        this.colors = new Color[width][height];
+    }
+
+    @Override
+    public void setPixelColor(Color color, int x, int y) {
+        colors[x][y] = color;
+    }
+
+    @Override
+    protected void setPixelsColor(Color[][] pixels) {
+        this.colors = pixels;
+    }
+
+    @Override
+    protected void setPixelsColor(Color color) {
+        for(int x = 0; x < height; x++)
+            for(int y = 0; y < width; y++)
+                colors[x][y] = color;
+    }
+
+    @Override
+    protected void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    protected void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Color getPixelColor(int x, int y) {
+        return colors[x][y];
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    /*Mis en commentraire des 9 méthodes pour faire étendre la classe abstraite
+     */
+
+    /*
     //Les neufs méthodes de la classe
 
     //Alloue la matrice représentant l'image
@@ -81,4 +124,7 @@ public class BruteRasterImage implements Image {
     protected void setHeight(int height){
         this.height = height;
     }
+    */
+
+
 }

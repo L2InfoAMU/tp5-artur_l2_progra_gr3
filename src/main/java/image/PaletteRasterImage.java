@@ -7,7 +7,7 @@ import java.util.List;
 
 import static util.Matrices.*;
 
-public class PaletteRasterImage implements Image {
+public class PaletteRasterImage extends RasterImage /*implements Image*/{
 
     private int width;
     private int height;
@@ -36,6 +36,65 @@ public class PaletteRasterImage implements Image {
         setPixelsColor(pixels);
     }
 
+    @Override
+    public void createRepresentation() {
+        this.palette = new ArrayList<>();
+        this.indexesOfColors = new int[width][height];
+    }
+
+    @Override
+    public void setPixelColor(Color color, int x, int y) {
+        if(!palette.contains(color))
+            palette.add(color);
+        indexesOfColors[x][y] = palette.indexOf(color);
+    }
+
+    @Override
+    protected void setPixelsColor(Color[][] pixels) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                palette.add(pixels[x][y]);
+                indexesOfColors[x][y] = palette.indexOf(pixels[x][y]);
+            }
+        }
+    }
+
+    @Override
+    protected void setPixelsColor(Color color) {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                indexesOfColors[x][y] = palette.indexOf(color);
+    }
+
+    @Override
+    protected void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    protected void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
+    public Color getPixelColor(int x, int y) {
+        return palette.get(indexesOfColors[x][y]);
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    /*Mis en commentraire des 9 méthodes pour faire étendre la classe abstraite
+    */
+
+    /*
     // Les 9 méthodes qui implémentent la classe PaletteRasterImage
 
     //methode 1
@@ -94,4 +153,5 @@ public class PaletteRasterImage implements Image {
     protected void setHeight (int height){
         this.height = height;
     }
+    */
 }
