@@ -3,7 +3,6 @@ package image;
 import javafx.scene.paint.Color;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class VectorImage implements Image {
     private int width;
@@ -14,8 +13,7 @@ public class VectorImage implements Image {
     public VectorImage(List<Shape> shapes, int width, int height){
         this.height=height;
         this.width = width;
-        this.shape= new ArrayList<>();
-        shape = shapes;
+        this.shape= shapes;
     }
 
     //Les 5 methodes
@@ -25,7 +23,7 @@ public class VectorImage implements Image {
             if(c.contains(new Point(x,y)))
                 return c.getColor();
         }
-        return Color.RED;
+        return Color.WHITE;
     }
 
     @Override
